@@ -33,10 +33,12 @@ export const Route = createRootRoute({
       { name: "description", content: "Precision Cleaning, Every Time. Power washing for driveways, siding, patios and more in the Grand Rapids area." },
       { name: "author", content: "BrightLine Cleaning" },
       { property: "og:title", content: "BrightLine Cleaning — Power Washing in Grand Rapids" },
-      { property: "og:description", content: "Precision Cleaning, Every Time. Premium service without the premium price." },
+      { property: "og:description", content: "Precision Cleaning, Every Time. Power washing for driveways, siding, patios and more in the Grand Rapids area." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
       { name: "twitter:site", content: "@Lovable" },
+      { name: "twitter:title", content: "BrightLine Cleaning — Power Washing in Grand Rapids" },
+      { name: "twitter:description", content: "Precision Cleaning, Every Time. Power washing for driveways, siding, patios and more in the Grand Rapids area." },
     ],
     links: [
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
