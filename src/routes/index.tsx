@@ -103,11 +103,11 @@ function Index() {
       </div>
 
       {/* Nav */}
-      <header className="sticky top-0 z-40 backdrop-blur-md bg-navy-deep/70 border-b border-white/10">
-        <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-3">
-          <BrightLineLogo size={72} />
+      <header className="sticky top-0 z-40 backdrop-blur-md bg-sky-soft/95 border-b border-sky/30 shadow-sm">
+        <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
+          <BrightLineLogo size={110} />
           <ContactDialog>
-            <Button size="sm" className="bg-sky text-navy-deep hover:bg-white rounded-full px-5 font-semibold">
+            <Button size="lg" className="bg-navy text-white hover:bg-navy-deep rounded-full px-6 font-semibold shadow-md">
               Contact Us
             </Button>
           </ContactDialog>
@@ -236,10 +236,10 @@ function Index() {
       </section>
 
       {/* FOOTER */}
-      <footer className="relative border-t border-white/10 bg-navy-deep/80 backdrop-blur-sm">
-        <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-4 px-6 py-8 sm:flex-row">
-          <BrightLineLogo size={56} />
-          <p className="text-xs text-white/50">© {new Date().getFullYear()} BrightLine Cleaning · Grand Rapids, MI</p>
+      <footer className="relative border-t border-sky/30 bg-sky-soft/95 backdrop-blur-sm">
+        <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-4 px-6 py-10 sm:flex-row">
+          <BrightLineLogo size={88} />
+          <p className="text-xs text-navy-deep/70">© {new Date().getFullYear()} BrightLine Cleaning · Grand Rapids, MI</p>
         </div>
       </footer>
     </div>
