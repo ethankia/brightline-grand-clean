@@ -105,7 +105,7 @@ function Index() {
       {/* Nav */}
       <header className="sticky top-0 z-40 backdrop-blur-md bg-navy-deep/70 border-b border-white/10">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-3">
-          <BrightLineLogo size={42} />
+          <BrightLineLogo size={72} />
           <ContactDialog>
             <Button size="sm" className="bg-sky text-navy-deep hover:bg-white rounded-full px-5 font-semibold">
               Contact Us
@@ -238,7 +238,7 @@ function Index() {
       {/* FOOTER */}
       <footer className="relative border-t border-white/10 bg-navy-deep/80 backdrop-blur-sm">
         <div className="mx-auto flex max-w-6xl flex-col items-center justify-between gap-4 px-6 py-8 sm:flex-row">
-          <BrightLineLogo size={32} />
+          <BrightLineLogo size={56} />
           <p className="text-xs text-white/50">© {new Date().getFullYear()} BrightLine Cleaning · Grand Rapids, MI</p>
         </div>
       </footer>
