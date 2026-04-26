@@ -1,4 +1,4 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useEffect, useRef, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { ContactDialog } from "@/components/ContactDialog";
@@ -106,11 +106,16 @@ function Index() {
       <header className="sticky top-0 z-40 backdrop-blur-md bg-sky-soft/95 border-b border-sky/30 shadow-sm">
         <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
           <BrightLineLogo size={110} />
-          <ContactDialog>
-            <Button size="lg" className="bg-navy text-white hover:bg-navy-deep rounded-full px-6 font-semibold shadow-md">
-              Contact Us
-            </Button>
-          </ContactDialog>
+          <div className="flex items-center gap-3 sm:gap-5">
+            <Link to="/reviews" className="text-sm font-semibold text-navy hover:text-navy-deep transition-colors">
+              Reviews
+            </Link>
+            <ContactDialog>
+              <Button size="lg" className="bg-navy text-white hover:bg-navy-deep rounded-full px-5 sm:px-6 font-semibold shadow-md">
+                Contact Us
+              </Button>
+            </ContactDialog>
+          </div>
         </div>
       </header>
 
