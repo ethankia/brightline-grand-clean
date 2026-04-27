@@ -135,17 +135,56 @@ function ReviewsPage() {
     setError(null);
     setSuccess(false);
 
+    // Honeypot: real users won't fill this hidden field
+    if (website.trim() !== "") {
+      return setError("Submission blocked.");
+    }
+
+    // Time-to-fill check: bots submit instantly
+    const elapsed = Date.now() - formLoadedAt.current;
+    if (elapsed < 3000) {
+      return setError("Please take a moment to write your review before submitting.");
+    }
+
+    // Rate limit: cooldown + daily cap
+    const history = getSubmitHistory();
+    const last = history[history.length - 1];
+    if (last && Date.now() - last < COOLDOWN_MS) {
+      const wait = Math.ceil((COOLDOWN_MS - (Date.now() - last)) / 1000);
+      return setError(`Please wait ${wait}s before submitting another review.`);
+    }
+    if (history.length >= DAILY_LIMIT) {
+      return setError("You've reached the daily review limit. Please try again tomorrow.");
+    }
+
     const trimmedName = name.trim();
     const trimmedBody = body.trim();
     if (!trimmedName || trimmedName.length > 100) return setError("Please enter your name (1–100 characters).");
     if (rating < 1 || rating > 5) return setError("Please select a star rating.");
-    if (!trimmedBody || trimmedBody.length > 2000) return setError("Please write your review (1–2000 characters).");
+    if (trimmedBody.length < 10 || trimmedBody.length > 2000) return setError("Please write a review between 10 and 2000 characters.");
+
+    // Block obvious link spam
+    const urlMatches = trimmedBody.match(/https?:\/\/|www\./gi);
+    if (urlMatches && urlMatches.length > 2) {
+      return setError("Reviews can't contain multiple links.");
+    }
+
+    // Duplicate check against recent local submissions
+    try {
+      const lastBody = localStorage.getItem("blc_last_body");
+      if (lastBody && lastBody === trimmedBody) {
+        return setError("This looks like a duplicate of your last review.");
+      }
+    } catch { /* ignore */ }
 
     setSubmitting(true);
     try {
       const photo_urls: string[] = [];
       for (const file of files) {
-        const ext = file.name.split(".").pop()?.toLowerCase() || "jpg";
+        if (!file.type.startsWith("image/") || file.size > 8 * 1024 * 1024) {
+          throw new Error("Photos must be images under 8MB.");
+        }
+        const ext = file.name.split(".").pop()?.toLowerCase().replace(/[^a-z0-9]/g, "") || "jpg";
         const path = `${crypto.randomUUID()}.${ext}`;
         const { error: upErr } = await supabase.storage.from("review-photos").upload(path, file, {
           contentType: file.type,
@@ -161,11 +200,15 @@ function ReviewsPage() {
         .insert({ name: trimmedName, rating, body: trimmedBody, photo_urls });
       if (insErr) throw insErr;
 
+      recordSubmit();
+      try { localStorage.setItem("blc_last_body", trimmedBody); } catch { /* ignore */ }
+
       setName("");
       setRating(0);
       setBody("");
       setFiles([]);
       setSuccess(true);
+      formLoadedAt.current = Date.now();
       await loadReviews();
       window.scrollTo({ top: 0, behavior: "smooth" });
     } catch (err) {
