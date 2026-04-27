@@ -301,6 +301,19 @@ function ReviewsPage() {
             )}
 
             <form onSubmit={submit} className="mt-6 space-y-5">
+              {/* Honeypot — hidden from real users, bots fill it */}
+              <div aria-hidden="true" style={{ position: "absolute", left: "-10000px", width: 1, height: 1, overflow: "hidden" }}>
+                <label htmlFor="website">Website</label>
+                <input
+                  id="website"
+                  type="text"
+                  tabIndex={-1}
+                  autoComplete="off"
+                  value={website}
+                  onChange={(e) => setWebsite(e.target.value)}
+                />
+              </div>
+
               <div>
                 <Label htmlFor="name" className="text-white">Your name</Label>
                 <Input
