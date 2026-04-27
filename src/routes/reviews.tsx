@@ -79,6 +79,29 @@ function ReviewsPage() {
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
+  const [website, setWebsite] = useState(""); // honeypot
+  const formLoadedAt = useRef<number>(Date.now());
+
+  const COOLDOWN_MS = 60 * 1000; // 1 min between submits
+  const DAILY_LIMIT = 5;
+  const STORAGE_KEY = "blc_reviews_submits";
+
+  const getSubmitHistory = (): number[] => {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY);
+      if (!raw) return [];
+      const arr = JSON.parse(raw) as number[];
+      const cutoff = Date.now() - 24 * 60 * 60 * 1000;
+      return arr.filter((t) => t > cutoff);
+    } catch {
+      return [];
+    }
+  };
+
+  const recordSubmit = () => {
+    const next = [...getSubmitHistory(), Date.now()];
+    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(next)); } catch { /* ignore */ }
+  };
 
   const loadReviews = async () => {
     setLoading(true);
